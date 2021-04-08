@@ -4,13 +4,14 @@ import cors from "cors";
 import express from "express";
 import "reflect-metadata";
 import "dotenv/config";
+//connect DB
+import { connectDB } from "./config/db";
 
 //schema
 
-//connect DB
-
 const PORT = process.env.PORT || 5000;
 
+connectDB();
 //create Server
 async function createServer() {
   try {
