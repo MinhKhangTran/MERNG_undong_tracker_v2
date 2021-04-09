@@ -1,27 +1,28 @@
+//Chakra
+import { ChakraProvider } from "@chakra-ui/react";
 //Next
 import Router from "next/router";
-
-//Chakra
-import { ChakraProvider, ColorModeProvider } from "@chakra-ui/react";
-
-//Next auth
-import { Provider } from "next-auth/client";
-
+//styles
+import { theme } from "../styles/theme";
 //Components
-import Layout from "components/Layout";
+import Layout from "../components/Layout";
+//Nprogress
+import NProgress from "nprogress";
+// import "nprogress/nprogress.css";
+import "../styles/nprogress.css";
 
-const MyApp = ({ Component, pageProps }) => {
+Router.events.on("routeChangeStart", () => NProgress.start());
+Router.events.on("routeChangeComplete", () => NProgress.done());
+Router.events.on("routeChangeError", () => NProgress.done());
+
+function MyApp({ Component, pageProps }) {
   return (
-    <Provider session={pageProps.session}>
-      <ChakraProvider resetCSS>
-        <ColorModeProvider options={{ useSystemColorMode: true }}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </ColorModeProvider>
-      </ChakraProvider>
-    </Provider>
+    <ChakraProvider resetCSS theme={theme}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ChakraProvider>
   );
-};
+}
 
 export default MyApp;
