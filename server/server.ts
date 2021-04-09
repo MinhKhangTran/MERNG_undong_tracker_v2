@@ -4,10 +4,12 @@ import cors from "cors";
 import express from "express";
 import "reflect-metadata";
 import "dotenv/config";
+import { ApolloServer } from "apollo-server-express";
 //connect DB
 import { connectDB } from "./config/db";
 
 //schema
+import createSchema from "./schema";
 
 const PORT = process.env.PORT || 5000;
 
@@ -27,15 +29,28 @@ async function createServer() {
     app.use(express.json());
 
     //buildschema
+    const schema = await createSchema();
+    // create GraphQL server
+    const apolloServer = new ApolloServer({
+      schema,
+      context: ({ req, res }) => ({ req, res }),
+      introspection: true,
+      // enable GraphQL Playground
+      playground: {
+        settings: {
+          "request.credentials": "include",
+        },
+      },
+    });
 
-    //graphql server
-
-    //graphql middleware
+    apolloServer.applyMiddleware({ app, cors: corsOptions });
 
     //listen
     app.listen(PORT, () => {
       console.log(
-        colors.bgBlue(`🚀 Server startet auf Port http://localhost:${PORT} 🚀`)
+        colors.bgBlue(
+          `🚀 Server rennt auf dem Port http://localhost:${PORT}${apolloServer.graphqlPath} 🚀`
+        )
       );
     });
   } catch (error) {
