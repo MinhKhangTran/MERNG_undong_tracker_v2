@@ -3,12 +3,28 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+"""Exercise"""
+type Exercise {
+  _id: ObjectId!
+  category: String!
+  name: String!
+  workout: Workout!
+}
+
+input ExerciseInput {
+  _id: ObjectId
+  category: String!
+  name: String!
+  workout: ObjectId
+}
+
 input LoginInput {
   email: String!
   password: String!
 }
 
 type Mutation {
+  createExercise(exerciseInput: ExerciseInput!): Exercise!
   createWorkout(workoutInput: WorkoutInput!): Workout!
   deleteWorkout(workoutId: ObjectId!): Boolean!
   login(input: LoginInput!): UserResponse!
@@ -21,6 +37,8 @@ scalar ObjectId
 
 type Query {
   getLoggedUser: User
+  readExercise(exerciseId: ObjectId!): Exercise!
+  readExercises: [Exercise!]!
   readWorkout(workoutId: ObjectId!): Workout!
   readWorkouts: [Workout!]!
   user(userId: ObjectId!): User
@@ -48,6 +66,7 @@ type UserResponse {
 type Workout {
   _id: ObjectId!
   athlete: User!
+  exercise: [Exercise!]!
   name: String!
 }
 

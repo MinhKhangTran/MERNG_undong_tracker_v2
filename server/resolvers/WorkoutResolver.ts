@@ -9,6 +9,7 @@ import {
   FieldResolver,
   Root,
 } from "type-graphql";
+import { Exercise, ExerciseModel } from "../entity/Exercise";
 //Models
 import { User, UserModel } from "../entity/User";
 import { Workout, WorkoutModel } from "../entity/Workout";
@@ -23,9 +24,13 @@ export class WorkoutResolver {
   @Query(() => [Workout])
   @UseMiddleware(isAuth)
   async readWorkouts(@Ctx() ctx: MyContext): Promise<Workout[]> {
-    return await WorkoutModel.find({ athlete: ctx.res.locals.userId }).sort({
+    const workouts = await WorkoutModel.find({
+      athlete: ctx.res.locals.userId,
+    }).sort({
       createdAt: -1,
     });
+    console.log(workouts);
+    return workouts;
   }
   //MKT read a workout by ID PRIVATE
   @Query(() => Workout)
@@ -51,6 +56,7 @@ export class WorkoutResolver {
   ): Promise<Workout> {
     const workout = new WorkoutModel({
       ...workoutInput,
+
       athlete: ctx.res.locals.userId,
     } as Workout);
     await workout.save();
@@ -97,9 +103,14 @@ export class WorkoutResolver {
     return true;
   }
 
-  //MKT create Reference
+  //MKT create Reference to user
   @FieldResolver()
   async athlete(@Root() workout: Workout): Promise<User | null> {
     return await UserModel.findById(workout.athlete);
+  }
+  //MKT create Reference to exercise
+  @FieldResolver()
+  async exercise(@Root() workout: Workout): Promise<Exercise[] | null> {
+    return await ExerciseModel.find({ workout: workout._id });
   }
 }
