@@ -8,6 +8,7 @@ type Exercise {
   _id: ObjectId!
   category: String!
   name: String!
+  sets: [Set!]!
   workout: Workout!
 }
 
@@ -50,6 +51,14 @@ input RegisterInput {
   email: String!
   password: String!
   username: String!
+}
+
+"""Set"""
+type Set {
+  _id: ObjectId!
+  exercise: Exercise!
+  gewicht: Float!
+  wdh: Float!
 }
 
 """User"""

@@ -51,6 +51,7 @@ export class ExerciseResolver {
     const exercise = new ExerciseModel({
       ...exerciseInput,
       //   athlete: ctx.res.locals.userId,
+      sets: [],
       workout,
     } as Exercise);
     await exercise.save();

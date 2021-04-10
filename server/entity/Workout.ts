@@ -16,11 +16,11 @@ export class Workout {
   @Property({ required: true, trim: true, lowercase: true })
   name: string;
 
-  //Reference to an user (User has many Workouts)
+  //Reference to an user (User has many Workouts) ⬆
   @Field(() => User)
   @Property({ ref: User, required: true })
   athlete: Ref<User>;
-  //Reference to an exercise( an Workout hast many Exercises)
+  //Reference to an exercise( an Workout hast many Exercises) ⬇
   @Field(() => [Exercise])
   @Property({ ref: "Exercise" })
   exercise: Ref<Exercise>[];
