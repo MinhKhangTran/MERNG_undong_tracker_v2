@@ -26,9 +26,11 @@ input LoginInput {
 type Mutation {
   createExercise(exerciseInput: ExerciseInput!): Exercise!
   createWorkout(workoutInput: WorkoutInput!): Workout!
+  deleteExercise(exerciseId: ObjectId!): Boolean!
   deleteWorkout(workoutId: ObjectId!): Boolean!
   login(input: LoginInput!): UserResponse!
   register(input: RegisterInput!): UserResponse!
+  updateExercise(exerciseInput: ExerciseInput!): Exercise!
   updateWorkout(workoutInput: WorkoutInput!): Workout!
 }
 

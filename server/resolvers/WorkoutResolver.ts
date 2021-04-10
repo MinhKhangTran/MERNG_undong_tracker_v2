@@ -29,7 +29,7 @@ export class WorkoutResolver {
     }).sort({
       createdAt: -1,
     });
-    console.log(workouts);
+    // console.log(workouts);
     return workouts;
   }
   //MKT read a workout by ID PRIVATE

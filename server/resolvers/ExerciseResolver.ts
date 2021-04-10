@@ -56,46 +56,42 @@ export class ExerciseResolver {
     await exercise.save();
     return exercise;
   }
-  //   //MKT update Workoutname PRIVATE
-  //   @Mutation(() => Exercise)
-  //   @UseMiddleware(isAuth)
-  //   async updateWorkout(
-  //     @Arg("workoutInput") workoutInput: WorkoutInput,
-  //     @Ctx() ctx: MyContext
-  //   ): Promise<Exercise> {
-  //     const workout = await WorkoutModel.findById(workoutInput._id);
-  //     if (!workout) throw new Error("Diese Einheit gibt es nicht!");
-  //     if (workout.athlete.toString() !== ctx.res.locals.userId) {
-  //       throw new Error("Diese Einheit gehört dir nicht!");
-  //     }
-  //     const updateWorkout = await WorkoutModel.findOneAndUpdate(
-  //       { _id: workoutInput._id },
-  //       {
-  //         $set: {
-  //           name: workoutInput.name,
-  //         },
-  //       },
-  //       { new: true, runValidators: true }
-  //     );
-  //     //! Could be null therefor we need to tell typescript that
-  //     if (!updateWorkout) throw new Error("Fehler beim Änder");
-  //     return updateWorkout;
-  //   }
-  //   //MKT delete Exercise by ID PRIVATE
-  //   @Mutation(() => Boolean)
-  //   @UseMiddleware(isAuth)
-  //   async deleteWorkout(
-  //     @Arg("workoutId", () => ObjectIdScalar) workoutId: ObjectId,
-  //     @Ctx() ctx: MyContext
-  //   ): Promise<Boolean> {
-  //     const workout = await WorkoutModel.findById(workoutId);
-  //     if (!workout) throw new Error("Diese Einheit gibt es nicht!");
-  //     if (workout.athlete.toString() !== ctx.res.locals.userId) {
-  //       throw new Error("Diese Einheit gehört dir nicht!");
-  //     }
-  //     await workout.remove();
-  //     return true;
-  //   }
+  //MKT update Workoutname PRIVATE
+  @Mutation(() => Exercise)
+  @UseMiddleware(isAuth)
+  async updateExercise(
+    @Arg("exerciseInput") exerciseInput: ExerciseInput
+  ): Promise<Exercise> {
+    const exercise = await ExerciseModel.findById(exerciseInput._id);
+    if (!exercise) throw new Error("Diese Einheit gibt es nicht!");
+
+    const updateExercise = await ExerciseModel.findOneAndUpdate(
+      { _id: exerciseInput._id },
+      {
+        $set: {
+          name: exerciseInput.name,
+          category: exerciseInput.category,
+          //TODO change set
+        },
+      },
+      { new: true, runValidators: true }
+    );
+    //! Could be null therefor we need to tell typescript that
+    if (!updateExercise) throw new Error("Fehler beim Änder");
+    return updateExercise;
+  }
+  //MKT delete Exercise by ID PRIVATE
+  @Mutation(() => Boolean)
+  @UseMiddleware(isAuth)
+  async deleteExercise(
+    @Arg("exerciseId", () => ObjectIdScalar) exerciseId: ObjectId
+  ): Promise<Boolean> {
+    const exercise = await ExerciseModel.findById(exerciseId);
+    if (!exercise) throw new Error("Diese Einheit gibt es nicht!");
+
+    await exercise.remove();
+    return true;
+  }
 
   //MKT create Reference to workout
   @FieldResolver()
