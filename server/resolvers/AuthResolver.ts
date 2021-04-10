@@ -12,7 +12,7 @@ import { UserModel } from "../entity/User";
 
 @Resolver()
 export class AuthResolver {
-  //?register a new User
+  //MKT register a new User
   @Mutation(() => UserResponse)
   async register(
     @Arg("input") { username, email, password }: RegisterInput
@@ -37,7 +37,7 @@ export class AuthResolver {
 
     return { user: newUser, token };
   }
-  //?login a User
+  //MKT login a User
   @Mutation(() => UserResponse)
   async login(
     @Arg("input") { email, password }: LoginInput

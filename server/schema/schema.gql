@@ -9,6 +9,7 @@ input LoginInput {
 }
 
 type Mutation {
+  createWorkout(workoutInput: WorkoutInput!): Workout!
   login(input: LoginInput!): UserResponse!
   register(input: RegisterInput!): UserResponse!
 }
@@ -18,6 +19,8 @@ scalar ObjectId
 
 type Query {
   getLoggedUser: User
+  readWorkout(workoutId: ObjectId!): Workout!
+  readWorkouts: [Workout!]!
   user(userId: ObjectId!): User
 }
 
@@ -37,4 +40,16 @@ type User {
 type UserResponse {
   token: String
   user: User
+}
+
+"""Workout"""
+type Workout {
+  _id: ObjectId!
+  athlete: User!
+  name: String!
+}
+
+input WorkoutInput {
+  _id: ObjectId
+  name: String!
 }

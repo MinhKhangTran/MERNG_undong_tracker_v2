@@ -11,13 +11,14 @@ import { UserResolver } from "../resolvers/UserResolver";
 //middleware and Scalars
 import { TypegooseMiddleware } from "../middleware/typegoose";
 import { ObjectIdScalar } from "./object-id.scalar";
+import { WorkoutResolver } from "../resolvers/WorkoutResolver";
 
 //build schema
 export default async function createSchema(): Promise<GraphQLSchema> {
   const schema = await buildSchema({
     // add ts resolvers as Array
     // * Resolver needs both Query and Mutation!
-    resolvers: [AuthResolver, UserResolver],
+    resolvers: [AuthResolver, UserResolver, WorkoutResolver],
     //for creating schemafile with generator
     emitSchemaFile: path.resolve(__dirname, "schema.gql"),
     //use document converting middleware

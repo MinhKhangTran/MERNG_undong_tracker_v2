@@ -11,13 +11,13 @@ import { isAuth } from "../middleware/isAuth";
 @Resolver()
 export class UserResolver {
   @Query(() => User, { nullable: true })
-  //?get User (Test)
+  //MKT get User (Test)
   async user(@Arg("userId", () => ObjectIdScalar) userId: ObjectId) {
     return await UserModel.findById(userId);
   }
   @Query(() => User, { nullable: true })
   @UseMiddleware(isAuth)
-  //?get logged User
+  //MKT get logged User
   async getLoggedUser(@Ctx() ctx: MyContext): Promise<User | null> {
     return await UserModel.findById(ctx.res.locals.userId);
   }

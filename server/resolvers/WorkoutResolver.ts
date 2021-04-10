@@ -6,8 +6,8 @@ import {
   UseMiddleware,
   Query,
   Mutation,
-  FieldResolver,
-  Root,
+  //   FieldResolver,
+  //   Root,
 } from "type-graphql";
 //Models
 import { Workout, WorkoutModel } from "../entity/Workout";
@@ -18,7 +18,7 @@ import { WorkoutInput } from "../types/WorkoutInput";
 
 @Resolver(() => Workout)
 export class WorkoutResolver {
-  //? read all workouts for an user PRIVATE
+  //MKT read all workouts for an user PRIVATE
   @Query(() => [Workout])
   @UseMiddleware(isAuth)
   async readWorkouts(@Ctx() ctx: MyContext): Promise<Workout[]> {
@@ -26,7 +26,7 @@ export class WorkoutResolver {
       createdAt: -1,
     });
   }
-  //? read a workout by ID PRIVATE
+  //MKT read a workout by ID PRIVATE
   @Query(() => Workout)
   @UseMiddleware(isAuth)
   async readWorkout(
@@ -42,7 +42,7 @@ export class WorkoutResolver {
     }
     return workout;
   }
-  //? create a workout for an User PRIVATE
+  //MKT create a workout for an User PRIVATE
   @Mutation(() => Workout)
   @UseMiddleware(isAuth)
   async createWorkout(
@@ -56,4 +56,6 @@ export class WorkoutResolver {
     await workout.save();
     return workout;
   }
+
+  //MKT create Reference
 }
