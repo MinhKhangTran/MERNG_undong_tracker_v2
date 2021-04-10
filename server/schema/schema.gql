@@ -10,8 +10,10 @@ input LoginInput {
 
 type Mutation {
   createWorkout(workoutInput: WorkoutInput!): Workout!
+  deleteWorkout(workoutId: ObjectId!): Boolean!
   login(input: LoginInput!): UserResponse!
   register(input: RegisterInput!): UserResponse!
+  updateWorkout(workoutInput: WorkoutInput!): Workout!
 }
 
 """Mongo id scalar type"""

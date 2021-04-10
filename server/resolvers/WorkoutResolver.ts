@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { ObjectId } from "mongodb";
 import {
   Resolver,
   Arg,
@@ -6,10 +6,11 @@ import {
   UseMiddleware,
   Query,
   Mutation,
-  //   FieldResolver,
-  //   Root,
+  FieldResolver,
+  Root,
 } from "type-graphql";
 //Models
+import { User, UserModel } from "../entity/User";
 import { Workout, WorkoutModel } from "../entity/Workout";
 import { isAuth } from "../middleware/isAuth";
 import { ObjectIdScalar } from "../schema/object-id.scalar";
@@ -35,9 +36,8 @@ export class WorkoutResolver {
   ): Promise<Workout> {
     const workout = await WorkoutModel.findById(workoutId);
     if (!workout) throw new Error("Diese Einheit gibt es nicht!");
-    const sameUser: boolean =
-      workout.athlete.toString() === ctx.res.locals.userId;
-    if (!sameUser) {
+
+    if (workout.athlete.toString() !== ctx.res.locals.userId) {
       throw new Error("Diese Einheit gehört dir nicht!");
     }
     return workout;
@@ -56,6 +56,50 @@ export class WorkoutResolver {
     await workout.save();
     return workout;
   }
+  //MKT update Workoutname PRIVATE
+  @Mutation(() => Workout)
+  @UseMiddleware(isAuth)
+  async updateWorkout(
+    @Arg("workoutInput") workoutInput: WorkoutInput,
+    @Ctx() ctx: MyContext
+  ): Promise<Workout> {
+    const workout = await WorkoutModel.findById(workoutInput._id);
+    if (!workout) throw new Error("Diese Einheit gibt es nicht!");
+    if (workout.athlete.toString() !== ctx.res.locals.userId) {
+      throw new Error("Diese Einheit gehört dir nicht!");
+    }
+    const updateWorkout = await WorkoutModel.findOneAndUpdate(
+      { _id: workoutInput._id },
+      {
+        $set: {
+          name: workoutInput.name,
+        },
+      },
+      { new: true, runValidators: true }
+    );
+    //! Could be null therefor we need to tell typescript that
+    if (!updateWorkout) throw new Error("Fehler beim Änder");
+    return updateWorkout;
+  }
+  //MKT delete Workout by ID PRIVATE
+  @Mutation(() => Boolean)
+  @UseMiddleware(isAuth)
+  async deleteWorkout(
+    @Arg("workoutId", () => ObjectIdScalar) workoutId: ObjectId,
+    @Ctx() ctx: MyContext
+  ): Promise<Boolean> {
+    const workout = await WorkoutModel.findById(workoutId);
+    if (!workout) throw new Error("Diese Einheit gibt es nicht!");
+    if (workout.athlete.toString() !== ctx.res.locals.userId) {
+      throw new Error("Diese Einheit gehört dir nicht!");
+    }
+    await workout.remove();
+    return true;
+  }
 
   //MKT create Reference
+  @FieldResolver()
+  async athlete(@Root() workout: Workout): Promise<User | null> {
+    return await UserModel.findById(workout.athlete);
+  }
 }
