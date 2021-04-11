@@ -21,11 +21,13 @@ import { Set, SetModel } from "../entity/Set";
 
 @Resolver(() => Exercise)
 export class ExerciseResolver {
-  //MKT read all workouts for an user PRIVATE
+  //MKT read all exercises of a workout for an user PRIVATE
   @Query(() => [Exercise])
   @UseMiddleware(isAuth)
-  async readExercises(): Promise<Exercise[]> {
-    return await ExerciseModel.find({}).sort({
+  async readExercises(
+    @Arg("workoutId", () => ObjectIdScalar) workoutId: ObjectId
+  ): Promise<Exercise[]> {
+    return await ExerciseModel.find({ workout: workoutId }).sort({
       createdAt: -1,
     });
   }
@@ -110,6 +112,6 @@ export class ExerciseResolver {
   //MKT create Reference to Set
   @FieldResolver()
   async set(@Root() exercise: Exercise): Promise<Set[] | null> {
-    return await SetModel.find(exercise.set);
+    return await SetModel.find({ exercise: exercise._id });
   }
 }

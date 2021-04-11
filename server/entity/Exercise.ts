@@ -29,8 +29,8 @@ export class Exercise {
   // athlete: Ref<User>;
   //Reference to an Set( an Exercise has many Sets) ⬇
   @Field(() => [Set])
-  @Property({ ref: "Set", required: false, default: [] })
-  set: Ref<Set>[] | any;
+  @Property({ ref: "Set" })
+  set: Ref<Set>[];
 }
 
 export const ExerciseModel = getModelForClass(Exercise, {
