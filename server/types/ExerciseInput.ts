@@ -2,6 +2,7 @@ import { InputType, Field } from "type-graphql";
 import { ObjectId } from "mongodb";
 //Exercise
 import { Exercise } from "../entity/Exercise";
+import { Set } from "../entity/Set";
 
 @InputType()
 export class ExerciseInput implements Partial<Exercise> {
@@ -21,4 +22,6 @@ export class ExerciseInput implements Partial<Exercise> {
     | "Unterer Rücken"
     | "Arme"
     | "Schulter";
+  // @Field(() => [Set], { nullable: true })
+  // set?: Set[];
 }

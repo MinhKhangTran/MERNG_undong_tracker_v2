@@ -54,7 +54,7 @@ export class ExerciseResolver {
     const exercise = new ExerciseModel({
       ...exerciseInput,
       //   athlete: ctx.res.locals.userId,
-      sets: [],
+      set: [],
       workout,
     } as Exercise);
     await exercise.save();
@@ -109,7 +109,7 @@ export class ExerciseResolver {
   //   }
   //MKT create Reference to Set
   @FieldResolver()
-  async sets(@Root() exercise: Exercise): Promise<Set[] | null> {
-    return await SetModel.find(exercise.sets);
+  async set(@Root() exercise: Exercise): Promise<Set[] | null> {
+    return await SetModel.find(exercise.set);
   }
 }

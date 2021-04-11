@@ -8,7 +8,7 @@ type Exercise {
   _id: ObjectId!
   category: String!
   name: String!
-  sets: [Set!]!
+  set: [Set!]!
   workout: Workout!
 }
 
