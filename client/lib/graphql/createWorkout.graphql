@@ -1,0 +1,21 @@
+mutation CreateWorkout($name: String!) {
+  createWorkout(workoutInput: { name: $name }) {
+    _id
+    name
+    athlete {
+      _id
+      email
+      username
+    }
+    exercise {
+      _id
+      name
+      category
+      sets {
+        _id
+        wdh
+        gewicht
+      }
+    }
+  }
+}

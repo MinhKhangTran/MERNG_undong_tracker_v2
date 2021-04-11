@@ -1,0 +1,11 @@
+query ReadWorkoutById($workoutId: ObjectId!) {
+  readWorkout(workoutId: $workoutId) {
+    _id
+    name
+    athlete {
+      _id
+      email
+      username
+    }
+  }
+}

@@ -1,0 +1,11 @@
+mutation UpdateWorkout($id: ObjectId!, $name: String!) {
+  updateWorkout(workoutInput: { _id: $id, name: $name }) {
+    _id
+    name
+    athlete {
+      _id
+      username
+      email
+    }
+  }
+}

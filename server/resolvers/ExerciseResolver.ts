@@ -17,6 +17,7 @@ import { isAuth } from "../middleware/isAuth";
 import { ObjectIdScalar } from "../schema/object-id.scalar";
 import { MyContext } from "../types/MyContext";
 import { ExerciseInput } from "../types/ExerciseInput";
+import { Set, SetModel } from "../entity/Set";
 
 @Resolver(() => Exercise)
 export class ExerciseResolver {
@@ -36,6 +37,8 @@ export class ExerciseResolver {
   ): Promise<Exercise> {
     const exercise = await ExerciseModel.findById(exerciseId);
     if (!exercise) throw new Error("Diese Einheit gibt es nicht!");
+
+    console.log(exercise);
 
     return exercise;
   }
@@ -104,4 +107,9 @@ export class ExerciseResolver {
   //   async athlete(@Root() exercise: Exercise): Promise<User | null> {
   //     return await UserModel.findById(exercise.athlete);
   //   }
+  //MKT create Reference to Set
+  @FieldResolver()
+  async sets(@Root() exercise: Exercise): Promise<Set[] | null> {
+    return await SetModel.find(exercise.sets);
+  }
 }

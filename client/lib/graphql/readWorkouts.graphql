@@ -1,0 +1,16 @@
+query ReadWorkouts {
+  readWorkouts {
+    _id
+    name
+    athlete {
+      _id
+      email
+      username
+    }
+    exercise {
+      _id
+      name
+      category
+    }
+  }
+}

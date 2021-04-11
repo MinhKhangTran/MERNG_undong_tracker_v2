@@ -26,6 +26,7 @@ input LoginInput {
 
 type Mutation {
   createExercise(exerciseInput: ExerciseInput!): Exercise!
+  createSet(setInput: SetInput!): Set!
   createWorkout(workoutInput: WorkoutInput!): Workout!
   deleteExercise(exerciseId: ObjectId!): Boolean!
   deleteWorkout(workoutId: ObjectId!): Boolean!
@@ -42,6 +43,8 @@ type Query {
   getLoggedUser: User
   readExercise(exerciseId: ObjectId!): Exercise!
   readExercises: [Exercise!]!
+  readSet(setId: ObjectId!): Set!
+  readSets: [Set!]!
   readWorkout(workoutId: ObjectId!): Workout!
   readWorkouts: [Workout!]!
   user(userId: ObjectId!): User
@@ -57,6 +60,13 @@ input RegisterInput {
 type Set {
   _id: ObjectId!
   exercise: Exercise!
+  gewicht: Float!
+  wdh: Float!
+}
+
+input SetInput {
+  _id: ObjectId
+  exercise: ObjectId
   gewicht: Float!
   wdh: Float!
 }
