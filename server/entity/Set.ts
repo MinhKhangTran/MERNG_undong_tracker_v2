@@ -20,7 +20,7 @@ export class Set {
 
   //Reference to Exercise ⬆
   @Field(() => Exercise)
-  @Property({ required: true, ref: "Exercise" })
+  @Property({ required: false, ref: "Exercise" })
   exercise: Ref<Exercise>;
 }
 

@@ -29,7 +29,7 @@ export class Exercise {
   // athlete: Ref<User>;
   //Reference to an Set( an Exercise has many Sets) ⬇
   @Field(() => [Set])
-  @Property({ ref: "Set" })
+  @Property({ ref: "Set", required: false })
   sets: Ref<Set>[];
 }
 
