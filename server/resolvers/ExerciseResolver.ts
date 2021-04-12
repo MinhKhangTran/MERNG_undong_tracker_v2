@@ -44,7 +44,7 @@ export class ExerciseResolver {
 
     return exercise;
   }
-  //MKT create a workout for an User PRIVATE
+  //MKT create an Exercise for an User PRIVATE
   @Mutation(() => Exercise)
   @UseMiddleware(isAuth)
   async createExercise(
@@ -52,7 +52,7 @@ export class ExerciseResolver {
     // @Ctx() ctx: MyContext
   ): Promise<Exercise> {
     const workout = await WorkoutModel.findById(exerciseInput.workout);
-    console.log(workout);
+    // console.log(workout);
     const exercise = new ExerciseModel({
       ...exerciseInput,
       //   athlete: ctx.res.locals.userId,
@@ -82,7 +82,7 @@ export class ExerciseResolver {
       },
       { new: true, runValidators: true }
     );
-    //! Could be null therefor we need to tell typescript that
+    //! Could be null therefore we need to tell typescript that
     if (!updateExercise) throw new Error("Fehler beim Änder");
     return updateExercise;
   }

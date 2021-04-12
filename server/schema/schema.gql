@@ -29,10 +29,12 @@ type Mutation {
   createSet(setInput: SetInput!): Set!
   createWorkout(workoutInput: WorkoutInput!): Workout!
   deleteExercise(exerciseId: ObjectId!): Boolean!
+  deleteSet(setId: ObjectId!): Boolean!
   deleteWorkout(workoutId: ObjectId!): Boolean!
   login(input: LoginInput!): UserResponse!
   register(input: RegisterInput!): UserResponse!
   updateExercise(exerciseInput: ExerciseInput!): Exercise!
+  updateSet(setInput: SetInput!): Set!
   updateWorkout(workoutInput: WorkoutInput!): Workout!
 }
 

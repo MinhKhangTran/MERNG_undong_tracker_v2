@@ -55,42 +55,40 @@ export class SetResolver {
     await set.save();
     return set;
   }
-  //   //MKT update Workoutname PRIVATE
-  //   @Mutation(() => Exercise)
-  //   @UseMiddleware(isAuth)
-  //   async updateExercise(
-  //     @Arg("exerciseInput") exerciseInput: ExerciseInput
-  //   ): Promise<Exercise> {
-  //     const exercise = await ExerciseModel.findById(exerciseInput._id);
-  //     if (!exercise) throw new Error("Diese Einheit gibt es nicht!");
+  //MKT update Workoutname PRIVATE
+  @Mutation(() => Set)
+  @UseMiddleware(isAuth)
+  async updateSet(@Arg("setInput") setInput: SetInput): Promise<Set> {
+    const set = await SetModel.findById(setInput._id);
+    if (!set) throw new Error("Dieser Satz gibt es nicht!");
 
-  //     const updateExercise = await ExerciseModel.findOneAndUpdate(
-  //       { _id: exerciseInput._id },
-  //       {
-  //         $set: {
-  //           name: exerciseInput.name,
-  //           category: exerciseInput.category,
-  //           //TODO change set
-  //         },
-  //       },
-  //       { new: true, runValidators: true }
-  //     );
-  //     //! Could be null therefor we need to tell typescript that
-  //     if (!updateExercise) throw new Error("Fehler beim Änder");
-  //     return updateExercise;
-  //   }
-  //   //MKT delete Exercise by ID PRIVATE
-  //   @Mutation(() => Boolean)
-  //   @UseMiddleware(isAuth)
-  //   async deleteExercise(
-  //     @Arg("exerciseId", () => ObjectIdScalar) exerciseId: ObjectId
-  //   ): Promise<Boolean> {
-  //     const exercise = await ExerciseModel.findById(exerciseId);
-  //     if (!exercise) throw new Error("Diese Einheit gibt es nicht!");
+    const updateSet = await SetModel.findOneAndUpdate(
+      { _id: setInput._id },
+      {
+        $set: {
+          gewicht: setInput.gewicht,
+          wdh: setInput.wdh,
+          //TODO change set
+        },
+      },
+      { new: true, runValidators: true }
+    );
+    //! Could be null therefore we need to tell typescript that
+    if (!updateSet) throw new Error("Fehler beim Änder");
+    return updateSet;
+  }
+  //MKT delete Exercise by ID PRIVATE
+  @Mutation(() => Boolean)
+  @UseMiddleware(isAuth)
+  async deleteSet(
+    @Arg("setId", () => ObjectIdScalar) setId: ObjectId
+  ): Promise<Boolean> {
+    const set = await SetModel.findById(setId);
+    if (!set) throw new Error("Dieser Satz gibt es nicht!");
 
-  //     await exercise.remove();
-  //     return true;
-  //   }
+    await set.remove();
+    return true;
+  }
 
   //MKT create Reference to exercise
   @FieldResolver()
