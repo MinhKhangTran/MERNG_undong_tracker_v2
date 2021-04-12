@@ -7,5 +7,15 @@ mutation UpdateWorkout($id: ObjectId!, $name: String!) {
       username
       email
     }
+    exercise {
+      _id
+      name
+      category
+      set {
+        wdh
+        gewicht
+        _id
+      }
+    }
   }
 }

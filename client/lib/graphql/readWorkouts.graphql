@@ -11,6 +11,11 @@ query ReadWorkouts {
       _id
       name
       category
+      set {
+        wdh
+        gewicht
+        _id
+      }
     }
   }
 }

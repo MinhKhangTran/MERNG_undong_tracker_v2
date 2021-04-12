@@ -7,5 +7,15 @@ query ReadWorkoutById($workoutId: ObjectId!) {
       email
       username
     }
+    exercise {
+      _id
+      name
+      category
+      set {
+        wdh
+        gewicht
+        _id
+      }
+    }
   }
 }

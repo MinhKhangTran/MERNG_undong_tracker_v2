@@ -1,0 +1,15 @@
+query ReadExerciseById($id: ObjectId!) {
+  readExercise(exerciseId: $id) {
+    _id
+    name
+    category
+    workout {
+      name
+    }
+    set {
+      _id
+      gewicht
+      wdh
+    }
+  }
+}

@@ -11,7 +11,7 @@ mutation CreateWorkout($name: String!) {
       _id
       name
       category
-      sets {
+      set {
         _id
         wdh
         gewicht
