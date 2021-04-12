@@ -1,0 +1,12 @@
+query ReadSet($id: ObjectId!) {
+  readSet(setId: $id) {
+    _id
+    wdh
+    gewicht
+    exercise {
+      _id
+      name
+      category
+    }
+  }
+}

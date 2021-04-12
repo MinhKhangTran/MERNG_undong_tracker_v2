@@ -1,0 +1,3 @@
+mutation DeleteSet($id: ObjectId!) {
+  deleteSet(setId: $id)
+}

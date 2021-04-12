@@ -1,0 +1,7 @@
+query ReadSets {
+  readSets {
+    _id
+    wdh
+    gewicht
+  }
+}

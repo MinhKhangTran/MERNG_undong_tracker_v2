@@ -1,0 +1,12 @@
+mutation UpdateSet($id: ObjectId!, $wdh: Float!, $gewicht: Float!) {
+  updateSet(setInput: { _id: $id, wdh: $wdh, gewicht: $gewicht }) {
+    _id
+    gewicht
+    wdh
+    exercise {
+      _id
+      name
+      category
+    }
+  }
+}

@@ -1,0 +1,12 @@
+mutation CreateSet($exercise: ObjectId!, $wdh: Float!, $gewicht: Float!) {
+  createSet(setInput: { exercise: $exercise, wdh: $wdh, gewicht: $gewicht }) {
+    _id
+    wdh
+    gewicht
+    exercise {
+      _id
+      name
+      category
+    }
+  }
+}
