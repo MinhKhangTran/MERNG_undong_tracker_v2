@@ -16,7 +16,7 @@ export default function IndexPage() {
         Undong Tracker v2.0.0
       </Heading>
       <Heading mt={6} color={textColor} as="h2" size="xl">
-        <Link href="/dashboard">Zu deinem Dashboard</Link>
+        <Link href="/login">Jetzt Testen!</Link>
       </Heading>
       <Heading as="h3" size="lg" mt={4}>
         Über dieses Projekt

@@ -1,0 +1,25 @@
+html,
+body {
+  height: 100%;
+}
+#__next {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+.content {
+  flex: 1 0 auto;
+}
+.footer {
+  flex-shrink: 0;
+}
+.chakra-ui-dark {
+  background: #1e0449;
+  color: #d1b8fd;
+}
+.chakra-ui-light {
+  background: #f1e6ff;
+  color: #460ea5;
+}

@@ -1,24 +1,34 @@
 //global
-import { Box, Flex, Heading, useColorModeValue } from "@chakra-ui/react";
+import { Box, Flex, Heading, useColorModeValue, Text } from "@chakra-ui/react";
 //components
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+//Auth
+import { useAuth } from "../authContext";
 
 const Layout = ({ children }) => {
-  const bgColor = useColorModeValue("frontend.50", "frontend.900");
-  const textColor = useColorModeValue("frontend.800", "frontend.200");
+  const bgColor = useColorModeValue("frontend.50", "frontend.800");
+  const textColor = useColorModeValue("frontend.600", "frontend.100");
+  const { user } = useAuth();
   return (
-    <Box bg={bgColor} color={textColor}>
-      <Navbar />
-      <Box
-        /*height="calc(100vh - 112px)"*/
-        w={{ base: "90%", md: "50%" }}
-        mx="auto"
-      >
-        {children}
+    <Flex direction="column" bg={bgColor} color={textColor} height="100%">
+      <Box className="content">
+        <Navbar />
+        <Box w={{ base: "90%", md: "50%" }} mx="auto">
+          {user && (
+            <Text as="h2" fontSize="2xl">
+              Hi{" "}
+              <Text as="span" casing="capitalize">
+                {user.username}
+              </Text>
+            </Text>
+          )}
+
+          {children}
+        </Box>
       </Box>
       <Footer />
-    </Box>
+    </Flex>
   );
 };
 export default Layout;

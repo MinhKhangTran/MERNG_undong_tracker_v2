@@ -3,10 +3,11 @@ import { Box, Flex, Text, Spacer } from "@chakra-ui/react";
 const Footer = () => {
   return (
     <Flex
+      className="footer"
       borderTop="1px"
       borderColor="frontend.200"
       py={6}
-      as="nav"
+      as="footer"
       w="90%"
       mx="auto"
       mt={4}
