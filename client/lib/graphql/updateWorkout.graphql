@@ -2,6 +2,7 @@ mutation UpdateWorkout($id: ObjectId!, $name: String!) {
   updateWorkout(workoutInput: { _id: $id, name: $name }) {
     _id
     name
+    datum
     athlete {
       _id
       username

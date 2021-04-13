@@ -17,7 +17,7 @@ export class Workout {
   name: string;
 
   @Field()
-  @Property({ required: true })
+  @Property({ required: false })
   datum: string;
 
   //Reference to an user (User has many Workouts) ⬆

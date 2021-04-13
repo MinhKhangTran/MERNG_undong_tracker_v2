@@ -96,6 +96,6 @@ type Workout {
 
 input WorkoutInput {
   _id: ObjectId
-  datum: String!
+  datum: String
   name: String!
 }

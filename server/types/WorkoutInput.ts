@@ -10,7 +10,7 @@ export class WorkoutInput implements Partial<Workout> {
   _id?: ObjectId;
   @Field()
   name: string;
-  @Field()
+  @Field({ nullable: true })
   datum?: string;
   // @Field({ nullable: true })
   // exercise?: Exercise[];

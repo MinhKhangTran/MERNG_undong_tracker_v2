@@ -1,7 +1,8 @@
-mutation CreateWorkout($name: String!) {
-  createWorkout(workoutInput: { name: $name }) {
+mutation CreateWorkout($name: String!, $datum: String!) {
+  createWorkout(workoutInput: { name: $name, datum: $datum }) {
     _id
     name
+    datum
     athlete {
       _id
       email

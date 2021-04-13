@@ -7,13 +7,14 @@ import { useReadWorkoutsQuery } from "../lib/graphql/readWorkouts.graphql";
 const DashboardPage = () => {
   const { data, loading, error } = useReadWorkoutsQuery();
   const [datum, setDatum] = useState(new Date());
-  // console.log(data);
+
   const options: any = {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
   };
+  console.log(data, loading, error);
   if (loading)
     return (
       <Box>
@@ -23,30 +24,18 @@ const DashboardPage = () => {
   return (
     <Box>
       <Flex justify="center">
-        {/* <Button
-          onClick={() => {
-            setDatum((oldValue) => {
-              const today = oldValue;
-              const yesterday = new Date(today);
-              oldValue = new Date(yesterday.setDate(yesterday.getDay() - 1));
-              return oldValue;
-            });
-          }}
-        >
-          -
-        </Button> */}
         <Heading>{datum.toLocaleDateString("de-DE", options)}</Heading>
-        {/* <Button>+</Button> */}
       </Flex>
-      {!loading &&
+      {/* {!loading &&
         data.readWorkouts.map((workout) => {
+          console.log(workout.datum);
           return (
             <Box mt={8} key={workout._id}>
               <Heading>{workout.name}</Heading>
               <Text></Text>
             </Box>
           );
-        })}
+        })} */}
     </Box>
   );
 };

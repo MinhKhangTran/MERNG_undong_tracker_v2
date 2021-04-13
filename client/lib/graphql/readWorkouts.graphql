@@ -2,6 +2,7 @@ query ReadWorkouts {
   readWorkouts {
     _id
     name
+    datum
     athlete {
       _id
       email

@@ -2,6 +2,7 @@ query ReadWorkoutById($workoutId: ObjectId!) {
   readWorkout(workoutId: $workoutId) {
     _id
     name
+    datum
     athlete {
       _id
       email
