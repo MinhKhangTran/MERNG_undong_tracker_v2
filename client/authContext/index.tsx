@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }) => {
       //signinMutation returns a Promise therefor we need async/await
       const { data } = await loginMutation({ variables: { email, password } });
       if (data.login.token && data.login.user) {
-        sessionStorage.setItem("token", data.login.token);
+        localStorage.setItem("token", data.login.token);
         //client resetStore at login to refetch and set to cache
         client.resetStore().then(() => {
           router.push("/dashboard");
@@ -76,7 +76,7 @@ export const AuthProvider = ({ children }) => {
         variables: { password, email, username },
       });
       if (data.register.token && data.register.user) {
-        sessionStorage.setItem("token", data.register.token);
+        localStorage.setItem("token", data.register.token);
         //client resetStore
         client.resetStore().then(() => {
           router.push("/");
@@ -89,7 +89,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
   const logout = () => {
-    sessionStorage.removeItem("token");
+    localStorage.removeItem("token");
     client.resetStore().then(() => {
       router.push("/");
     });
