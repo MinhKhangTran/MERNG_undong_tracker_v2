@@ -89,11 +89,13 @@ type UserResponse {
 type Workout {
   _id: ObjectId!
   athlete: User!
+  datum: String!
   exercise: [Exercise!]!
   name: String!
 }
 
 input WorkoutInput {
   _id: ObjectId
+  datum: String!
   name: String!
 }

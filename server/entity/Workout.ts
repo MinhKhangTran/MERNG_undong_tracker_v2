@@ -16,6 +16,10 @@ export class Workout {
   @Property({ required: true, trim: true, lowercase: true })
   name: string;
 
+  @Field()
+  @Property({ required: true })
+  datum: string;
+
   //Reference to an user (User has many Workouts) ⬆
   @Field(() => User)
   @Property({ ref: User, required: true })
