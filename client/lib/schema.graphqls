@@ -3,7 +3,9 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-"""Exercise"""
+"""
+Exercise
+"""
 type Exercise {
   _id: ObjectId!
   category: String!
@@ -38,7 +40,9 @@ type Mutation {
   updateWorkout(workoutInput: WorkoutInput!): Workout!
 }
 
-"""Mongo id scalar type"""
+"""
+Mongo id scalar type
+"""
 scalar ObjectId
 
 type Query {
@@ -58,7 +62,9 @@ input RegisterInput {
   username: String!
 }
 
-"""Set"""
+"""
+Set
+"""
 type Set {
   _id: ObjectId!
   exercise: Exercise!
@@ -73,7 +79,9 @@ input SetInput {
   wdh: Float!
 }
 
-"""User"""
+"""
+User
+"""
 type User {
   _id: ObjectId!
   email: String!
@@ -85,15 +93,19 @@ type UserResponse {
   user: User
 }
 
-"""Workout"""
+"""
+Workout
+"""
 type Workout {
   _id: ObjectId!
   athlete: User!
+  datum: String!
   exercise: [Exercise!]!
   name: String!
 }
 
 input WorkoutInput {
   _id: ObjectId
+  datum: String!
   name: String!
 }
