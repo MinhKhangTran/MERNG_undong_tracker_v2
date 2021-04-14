@@ -54,9 +54,7 @@ const DashboardPage = () => {
       <Flex justify="center">
         <Heading>{datum.toLocaleDateString("de-DE", options)}</Heading>
       </Flex>
-      <Button mt={8} colorScheme="frontend" variant="outline">
-        <Link href="/add">Eine Übung hinzufügen</Link>
-      </Button>
+
       {!loading &&
         data.readWorkouts.map((workout) => {
           const datumDB = workout.datum.split("T")[0];
@@ -65,6 +63,11 @@ const DashboardPage = () => {
           if (datumDB === datumUser) {
             return (
               <Box mt={8} key={workout._id}>
+                <Button mb={4} colorScheme="frontend" variant="outline">
+                  <Link href={`/addExercise/${workout._id}`}>
+                    Eine Übung hinzufügen
+                  </Link>
+                </Button>
                 <Heading>
                   <Text casing="uppercase">{workout.name}</Text>
                 </Heading>
