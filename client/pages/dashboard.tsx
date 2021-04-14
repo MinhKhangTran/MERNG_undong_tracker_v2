@@ -26,6 +26,7 @@ import { useState } from "react";
 import Link from "next/link";
 //Apollo
 import { useReadWorkoutsQuery } from "../lib/graphql/readWorkouts.graphql";
+import TableModal from "components/TableModal";
 
 const DashboardPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -96,34 +97,12 @@ const DashboardPage = () => {
                           <Tbody>
                             {exercise.set.map((set, index) => {
                               return (
-                                <Tr onClick={onOpen} key={set._id} mx={2}>
-                                  <Td>{set.gewicht}</Td>
-
-                                  <Td>{set.wdh}</Td>
-                                  <Td></Td>
-                                  <Modal isOpen={isOpen} onClose={onClose}>
-                                    <ModalOverlay />
-                                    <ModalContent>
-                                      <ModalHeader>{exercise.name}</ModalHeader>
-                                      <ModalCloseButton />
-                                      <ModalBody>
-                                        <Text>{index}. Satz</Text>
-                                        <Text>{set.gewicht}</Text>
-                                        <Text>{set.wdh}</Text>
-                                      </ModalBody>
-
-                                      <ModalFooter>
-                                        <Button
-                                          colorScheme="frontend"
-                                          mr={3}
-                                          onClick={onClose}
-                                        >
-                                          Close
-                                        </Button>
-                                      </ModalFooter>
-                                    </ModalContent>
-                                  </Modal>
-                                </Tr>
+                                <TableModal
+                                  index={index}
+                                  key={set._id}
+                                  set={set}
+                                  exercise={exercise}
+                                />
                               );
                             })}
                           </Tbody>
