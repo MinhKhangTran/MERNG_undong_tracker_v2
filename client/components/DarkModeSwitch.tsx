@@ -7,14 +7,22 @@ const DarkModeSwitch = () => {
   const isDark = colorMode === "dark";
   return (
     <HStack>
-      <Icon w={8} h={8} as={RiSunFill} />
+      <Icon
+        w={{ base: "6", md: "8" }}
+        h={{ base: "6", md: "8" }}
+        as={RiSunFill}
+      />
       <Switch
         size="lg"
         onChange={toggleColorMode}
         isChecked={isDark}
         colorScheme="frontend"
       ></Switch>
-      <Icon w={8} h={8} as={RiMoonClearFill} />
+      <Icon
+        w={{ base: "6", md: "8" }}
+        h={{ base: "6", md: "8" }}
+        as={RiMoonClearFill}
+      />
     </HStack>
   );
 };

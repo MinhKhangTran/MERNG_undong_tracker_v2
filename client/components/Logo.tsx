@@ -8,8 +8,8 @@ const Logo = () => {
     <Link href="/">
       <Box cursor="pointer">
         <svg
-          width="121"
-          height="82"
+          width="80"
+          height="42"
           viewBox="0 0 121 82"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

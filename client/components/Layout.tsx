@@ -15,14 +15,14 @@ const Layout = ({ children }) => {
       <Box className="content">
         <Navbar />
         <Box w={{ base: "90%", md: "50%" }} mx="auto">
-          {user && (
+          {/* {user && (
             <Text as="h2" fontSize="2xl">
               Hi{" "}
               <Text as="span" casing="capitalize">
                 {user.username}
               </Text>
             </Text>
-          )}
+          )} */}
 
           {children}
         </Box>

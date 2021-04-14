@@ -13,9 +13,8 @@ const Navbar = () => {
   const router = useRouter();
   return (
     <Flex p={4} as="nav" w="90%" mx="auto" align="center">
-      <Link href="/">
-        <Logo />
-      </Link>
+      <Logo />
+
       <Spacer />
       <DarkModeSwitch />
       <Spacer />
