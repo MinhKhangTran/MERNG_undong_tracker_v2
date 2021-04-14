@@ -1,5 +1,7 @@
+import { Box } from "@chakra-ui/react";
+
 const add = () => {
-  return <div>Hier kommt eine Form zum hinzufügen</div>;
+  return <Box>add</Box>;
 };
 
 export default add;

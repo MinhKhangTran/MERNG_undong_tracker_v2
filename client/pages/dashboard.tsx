@@ -27,6 +27,7 @@ import Link from "next/link";
 //Apollo
 import { useReadWorkoutsQuery } from "../lib/graphql/readWorkouts.graphql";
 import TableModal from "components/TableModal";
+import AddSetModal from "components/AddSetModal";
 
 const DashboardPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -97,14 +98,17 @@ const DashboardPage = () => {
                           <Tbody>
                             {exercise.set.map((set, index) => {
                               return (
-                                <TableModal
-                                  index={index}
-                                  key={set._id}
-                                  set={set}
-                                  exercise={exercise}
-                                />
+                                <>
+                                  <TableModal
+                                    index={index}
+                                    key={set._id}
+                                    set={set}
+                                    exercise={exercise}
+                                  />
+                                </>
                               );
                             })}
+                            <AddSetModal exercise={exercise} />
                           </Tbody>
                         </Table>
                       )}
