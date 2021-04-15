@@ -56,7 +56,7 @@ const AddSetModal = ({
         .integer(),
     }),
     onSubmit: (daten, { resetForm }) => {
-      console.log(daten);
+      // console.log(daten);
       createSetMutation({
         variables: {
           exercise: exercise._id,

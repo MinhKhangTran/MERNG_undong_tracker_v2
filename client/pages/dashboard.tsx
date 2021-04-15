@@ -26,15 +26,26 @@ import { useState } from "react";
 import Link from "next/link";
 //Apollo
 import { useReadWorkoutsQuery } from "../lib/graphql/readWorkouts.graphql";
+//components
 import TableModal from "components/TableModal";
 import AddSetModal from "components/AddSetModal";
+import AddWorkout from "../components/AddWorkout";
+import WorkoutModal from "components/WorkoutModal";
 
 const DashboardPage = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { onOpen } = useDisclosure();
   const { data, loading, error } = useReadWorkoutsQuery();
   const [datum, setDatum] = useState(new Date());
   const [toggle, setToggle] = useState({ title: "", open: false });
+  const [addWorkout, setAddWorkout] = useState(false);
   // console.log(data);
+  // console.log(
+  //   data.readWorkouts.some((workout) => {
+  //     console.log(workout.datum);
+  //     // console.log(datum.toISOString());
+  //     return workout.datum.split("T")[0] !== datum.toISOString().split("T")[0];
+  //   })
+  // );
 
   const options: any = {
     weekday: "long",
@@ -55,6 +66,25 @@ const DashboardPage = () => {
         <Heading>{datum.toLocaleDateString("de-DE", options)}</Heading>
       </Flex>
 
+      <Button
+        onClick={() => {
+          setAddWorkout(!addWorkout);
+        }}
+        mt={8}
+        colorScheme="frontend"
+        varaint="outline"
+      >
+        Eine Einheit hinzufügen ➕
+      </Button>
+      {addWorkout && <AddWorkout datum={datum} setAddWorkout={setAddWorkout} />}
+      {/* {data.readWorkouts.some(
+        (workout) =>
+          workout.datum.split("T")[0] !== datum.toISOString().split("T")[0]
+      ) && (
+        <Box mt={8}>
+          <Text>Für heute noch keine Einheit!</Text>
+        </Box>
+      ) } */}
       {!loading &&
         data.readWorkouts.map((workout) => {
           const datumDB = workout.datum.split("T")[0];
@@ -68,8 +98,11 @@ const DashboardPage = () => {
                     Eine Übung hinzufügen
                   </Link>
                 </Button>
+
                 <Heading>
-                  <Text casing="uppercase">{workout.name}</Text>
+                  <Link href={`/workout/${workout._id}`}>
+                    <Text casing="uppercase">{workout.name}</Text>
+                  </Link>
                 </Heading>
                 {workout.exercise.map((exercise) => {
                   return (
