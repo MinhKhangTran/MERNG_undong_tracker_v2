@@ -21,6 +21,12 @@ import { Set, SetModel } from "../entity/Set";
 
 @Resolver(() => Exercise)
 export class ExerciseResolver {
+  //MKT Read all exercises!
+  @Query(() => [Exercise])
+  @UseMiddleware(isAuth)
+  async readAllExercises(): Promise<Exercise[]> {
+    return await ExerciseModel.find().sort({ name: 1 });
+  }
   //MKT read all exercises of a workout for an user PRIVATE
   @Query(() => [Exercise])
   @UseMiddleware(isAuth)

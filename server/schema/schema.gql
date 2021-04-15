@@ -43,6 +43,7 @@ scalar ObjectId
 
 type Query {
   getLoggedUser: User
+  readAllExercises: [Exercise!]!
   readExercise(exerciseId: ObjectId!): Exercise!
   readExercises(workoutId: ObjectId!): [Exercise!]!
   readSet(setId: ObjectId!): Set!

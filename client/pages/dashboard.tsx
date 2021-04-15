@@ -19,6 +19,8 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  Grid,
+  IconButton,
 } from "@chakra-ui/react";
 import moment from "moment";
 import { useState } from "react";
@@ -31,6 +33,7 @@ import TableModal from "components/TableModal";
 import AddSetModal from "components/AddSetModal";
 import AddWorkout from "../components/AddWorkout";
 import WorkoutModal from "components/WorkoutModal";
+import { GrAdd } from "react-icons/gr";
 
 const DashboardPage = () => {
   const { onOpen } = useDisclosure();
@@ -93,17 +96,24 @@ const DashboardPage = () => {
           if (datumDB === datumUser) {
             return (
               <Box mt={8} key={workout._id}>
-                <Button mb={4} colorScheme="frontend" variant="outline">
-                  <Link href={`/addExercise/${workout._id}`}>
-                    Eine Übung hinzufügen
-                  </Link>
-                </Button>
-
                 <Heading>
                   <Link href={`/workout/${workout._id}`}>
                     <Text casing="uppercase">{workout.name}</Text>
                   </Link>
                 </Heading>
+                <Flex justify="center" mt={8}>
+                  <Link href={`/addExercise/${workout._id}`}>
+                    <IconButton
+                      variant="solid"
+                      colorScheme="frontend"
+                      aria-label="Add Exercise"
+                      fontSize="24px"
+                      icon={<GrAdd />}
+                      isRound={true}
+                    ></IconButton>
+                  </Link>
+                </Flex>
+
                 {workout.exercise.map((exercise) => {
                   return (
                     <Box key={exercise._id}>
