@@ -79,7 +79,7 @@ const AddSetModal = ({
   }, [closeModal]);
   return (
     <>
-      <Button onClick={onOpen} variant="ghost">
+      <Button onClick={onOpen} variant="solid" colorScheme="frontend" mt={4}>
         Satz hinzufügen
       </Button>
       <Modal

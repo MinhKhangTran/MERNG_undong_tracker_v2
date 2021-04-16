@@ -16,6 +16,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Select,
   Spinner,
   Td,
   Text,
@@ -31,34 +32,56 @@ import { Exercise, Workout } from "lib/graphql/createExercise.graphql";
 import { useEffect, useRef, useState } from "react";
 import { useCreateSetMutation } from "lib/graphql/createSet.graphql";
 import { READ_WORKOUT_QUERY } from "../../components/TableModal";
-import { useUpdateWorkoutMutation } from "lib/graphql/updateWorkout.graphql";
-import { useDeleteWorkoutMutation } from "lib/graphql/deleteWorkout.graphql";
-import { useReadWorkoutByIdQuery } from "lib/graphql/readWorkoutById.graphql";
-import { firstLetterCapital } from "lib/helpers";
 
-const WorkoutDetail = ({ id }) => {
-  const { data, loading, error } = useReadWorkoutByIdQuery({
-    variables: { workoutId: id },
+import { firstLetterCapital } from "lib/helpers";
+import { useReadExerciseByIdQuery } from "lib/graphql/readExerciseById.graphql";
+import { useUpdateExerciseMutation } from "lib/graphql/updateExercise.graphql";
+import { useDeleteExerciseMutation } from "lib/graphql/deleteExercise.graphql";
+import { useReadAllExercisesQuery } from "lib/graphql/readAllExercises.graphql";
+
+const EditExercise = ({ id }) => {
+  const { data, loading, error } = useReadExerciseByIdQuery({
+    variables: { id },
   });
+  const { data: AllExercises } = useReadAllExercisesQuery();
   //update
-  const [updateWorkoutMutation] = useUpdateWorkoutMutation();
+  const [updateExerciseMutation] = useUpdateExerciseMutation();
   //delete
-  const [deleteWorkoutMutation] = useDeleteWorkoutMutation();
+  const [deleteExerciseMutation] = useDeleteExerciseMutation();
   //other stuffs
-  const [formData, setFormData] = useState({ name: "" });
+  const [formData, setFormData] = useState({ name: "", category: "" });
   const router = useRouter();
+  const categoryArray = [
+    "Brust",
+    "Beine",
+    "Rücken",
+    "Unterer Rücken",
+    "Arme",
+    "Schulter",
+  ];
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: formData,
     validationSchema: Yup.object({
       name: Yup.string().required("Ein Name ist nötig!"),
+      category: Yup.string()
+        .oneOf([
+          "Brust",
+          "Beine",
+          "Rücken",
+          "Unterer Rücken",
+          "Arme",
+          "Schulter",
+        ])
+        .required("Eine Übung ist nötig"),
     }),
     onSubmit: (daten, { resetForm }) => {
       // console.log(daten);
-      updateWorkoutMutation({
+      updateExerciseMutation({
         variables: {
           id,
           name: daten.name,
+          category: daten.category,
         },
         refetchQueries: [{ query: READ_WORKOUT_QUERY }],
       });
@@ -70,18 +93,19 @@ const WorkoutDetail = ({ id }) => {
   useEffect(() => {
     if (data) {
       setFormData({
-        name: firstLetterCapital(data.readWorkout.name),
+        name: firstLetterCapital(data.readExercise.name),
+        category: data.readExercise.category,
       });
     }
   }, [data]);
   const onDelete = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await deleteWorkoutMutation({
+      const { data } = await deleteExerciseMutation({
         variables: { id },
         refetchQueries: [{ query: READ_WORKOUT_QUERY }],
       });
-      if (data.deleteWorkout) {
+      if (data.deleteExercise) {
         router.push("/dashboard");
       }
     } catch (error) {
@@ -108,7 +132,7 @@ const WorkoutDetail = ({ id }) => {
 
       <Box mt={8}>
         <Heading>
-          <Text>Einheit ändern/löschen</Text>
+          <Text>Übung ändern/löschen</Text>
         </Heading>
         <form onSubmit={formik.handleSubmit}>
           {/* name */}
@@ -127,6 +151,28 @@ const WorkoutDetail = ({ id }) => {
             />
 
             <FormErrorMessage>{formik.errors.name}</FormErrorMessage>
+          </FormControl>
+          {/* category */}
+          <FormControl
+            isInvalid={!!formik.errors.category && formik.touched.category}
+            id="category"
+            mt={4}
+          >
+            <FormLabel>Kategorie</FormLabel>
+            <Select
+              placeholder="Wähle eine Kategorie aus"
+              {...formik.getFieldProps("category")}
+            >
+              {categoryArray.map((category, index) => {
+                return (
+                  <option key={index} value={category}>
+                    {category}
+                  </option>
+                );
+              })}
+            </Select>
+
+            <FormErrorMessage>{formik.errors.category}</FormErrorMessage>
           </FormControl>
 
           <ButtonGroup>
@@ -152,8 +198,8 @@ const WorkoutDetail = ({ id }) => {
   );
 };
 
-export default WorkoutDetail;
+export default EditExercise;
 
-WorkoutDetail.getInitialProps = ({ query: { id } }) => {
+EditExercise.getInitialProps = ({ query: { id } }) => {
   return { id };
 };

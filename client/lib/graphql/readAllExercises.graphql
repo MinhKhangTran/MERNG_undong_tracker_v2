@@ -2,5 +2,6 @@ query ReadAllExercises {
   readAllExercises {
     name
     _id
+    category
   }
 }

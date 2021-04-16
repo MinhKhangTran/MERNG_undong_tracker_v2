@@ -21,6 +21,8 @@ import {
   useDisclosure,
   Grid,
   IconButton,
+  useColorModeValue,
+  Spacer,
 } from "@chakra-ui/react";
 import moment from "moment";
 import { useState } from "react";
@@ -34,6 +36,7 @@ import AddSetModal from "components/AddSetModal";
 import AddWorkout from "../components/AddWorkout";
 import WorkoutModal from "components/WorkoutModal";
 import { GrAdd } from "react-icons/gr";
+import { VscGear } from "react-icons/vsc";
 
 const DashboardPage = () => {
   const { onOpen } = useDisclosure();
@@ -49,6 +52,7 @@ const DashboardPage = () => {
   //     return workout.datum.split("T")[0] !== datum.toISOString().split("T")[0];
   //   })
   // );
+  const bgColor = useColorModeValue("frontend.100", "frontend.700");
 
   const options: any = {
     weekday: "long",
@@ -77,7 +81,7 @@ const DashboardPage = () => {
         colorScheme="frontend"
         varaint="outline"
       >
-        Eine Einheit hinzufügen ➕
+        Eine Einheit hinzufügen
       </Button>
       {addWorkout && <AddWorkout datum={datum} setAddWorkout={setAddWorkout} />}
       {/* {data.readWorkouts.some(
@@ -96,11 +100,80 @@ const DashboardPage = () => {
           if (datumDB === datumUser) {
             return (
               <Box mt={8} key={workout._id}>
-                <Heading>
+                <Heading
+                  cursor="pointer"
+                  display="inline-block"
+                  p={2}
+                  borderRadius="lg"
+                  boxShadow="md"
+                  bg={bgColor}
+                >
                   <Link href={`/workout/${workout._id}`}>
                     <Text casing="uppercase">{workout.name}</Text>
                   </Link>
                 </Heading>
+
+                {workout.exercise.map((exercise) => {
+                  return (
+                    <Box mt={4} key={exercise._id}>
+                      <Flex>
+                        <Text
+                          fontSize="2xl"
+                          casing="uppercase"
+
+                          // onClick={() => {
+                          //   if (toggle.open === false) {
+                          //     setToggle({ title: exercise.name, open: true });
+                          //     // console.log(toggle);
+                          //     //@ts-expect-error
+                          //   } else if (toggle.open !== false) {
+                          //     setToggle({ title: exercise.name, open: false });
+                          //     // console.log(toggle);
+                          //   }
+                          // }}
+                        >
+                          {exercise.name}
+                        </Text>
+                        <Spacer />
+                        <Link href={`/editExercise/${exercise._id}`}>
+                          <IconButton
+                            variant="ghost"
+                            colorScheme="frontend"
+                            aria-label="Settings"
+                            fontSize="20px"
+                            icon={<VscGear />}
+                          />
+                        </Link>
+                      </Flex>
+                      {/* {toggle.title === exercise.name && toggle.open && ( */}
+                      <Table variant="simple">
+                        <Thead>
+                          <Tr>
+                            <Th>Gewicht</Th>
+                            <Th>Wdh</Th>
+                            <Th>RPE</Th>
+                          </Tr>
+                        </Thead>
+                        <Tbody>
+                          {exercise.set.map((set, index) => {
+                            return (
+                              <>
+                                <TableModal
+                                  index={index}
+                                  key={set._id}
+                                  set={set}
+                                  exercise={exercise}
+                                />
+                              </>
+                            );
+                          })}
+                          <AddSetModal exercise={exercise} />
+                        </Tbody>
+                      </Table>
+                      {/* )} */}
+                    </Box>
+                  );
+                })}
                 <Flex justify="center" mt={8}>
                   <Link href={`/addExercise/${workout._id}`}>
                     <IconButton
@@ -113,54 +186,6 @@ const DashboardPage = () => {
                     ></IconButton>
                   </Link>
                 </Flex>
-
-                {workout.exercise.map((exercise) => {
-                  return (
-                    <Box key={exercise._id}>
-                      <Text
-                        casing="capitalize"
-                        onClick={() => {
-                          if (toggle.open === false) {
-                            setToggle({ title: exercise.name, open: true });
-                            console.log(toggle);
-                            //@ts-expect-error
-                          } else if (toggle.open !== false) {
-                            setToggle({ title: exercise.name, open: false });
-                            console.log(toggle);
-                          }
-                        }}
-                      >
-                        {exercise.name}
-                      </Text>
-                      {toggle.title === exercise.name && toggle.open && (
-                        <Table variant="unstyled">
-                          <Thead>
-                            <Tr>
-                              <Th>Gewicht</Th>
-                              <Th>Wdh</Th>
-                              <Th>RPE</Th>
-                            </Tr>
-                          </Thead>
-                          <Tbody>
-                            {exercise.set.map((set, index) => {
-                              return (
-                                <>
-                                  <TableModal
-                                    index={index}
-                                    key={set._id}
-                                    set={set}
-                                    exercise={exercise}
-                                  />
-                                </>
-                              );
-                            })}
-                            <AddSetModal exercise={exercise} />
-                          </Tbody>
-                        </Table>
-                      )}
-                    </Box>
-                  );
-                })}
               </Box>
             );
           }

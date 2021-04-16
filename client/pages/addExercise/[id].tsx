@@ -15,18 +15,38 @@ import { useReadAllExercisesQuery } from "lib/graphql/readAllExercises.graphql";
 import Link from "next/link";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { firstLetterCapital } from "lib/helpers";
+import { useCreateExerciseMutation } from "lib/graphql/createExercise.graphql";
+import { READ_WORKOUT_QUERY } from "components/TableModal";
+import { useRouter } from "next/router";
+
 const AddExercise = ({ id }) => {
   const { data, loading, error } = useReadAllExercisesQuery();
-  console.log(data);
+  const router = useRouter();
+  // console.log(data);
+  const [createExerciseMutation] = useCreateExerciseMutation();
   const formik = useFormik({
     initialValues: { exerciseName: "" },
     validationSchema: Yup.object({
       exerciseName: Yup.string().required("Eine Übung ist nötig"),
     }),
     onSubmit: (daten, { resetForm }) => {
-      console.log(daten);
+      // console.log(daten);
+      createExerciseMutation({
+        variables: {
+          category: selectedExercise.category,
+          name: daten.exerciseName,
+          workout: id,
+        },
+        refetchQueries: [{ query: READ_WORKOUT_QUERY }],
+      });
+      router.push("/dashboard");
     },
   });
+
+  const selectedExercise = data?.readAllExercises?.find(
+    (exercise) => exercise.name === formik.values.exerciseName
+  );
   if (loading)
     return (
       <Box>
@@ -60,7 +80,7 @@ const AddExercise = ({ id }) => {
               {data.readAllExercises.map((exercise) => {
                 return (
                   <option key={exercise._id} value={exercise.name}>
-                    {exercise.name}
+                    {firstLetterCapital(exercise.name)} - {exercise.category}
                   </option>
                 );
               })}
@@ -68,22 +88,30 @@ const AddExercise = ({ id }) => {
 
             <FormErrorMessage>{formik.errors.exerciseName}</FormErrorMessage>
           </FormControl>
+          {/* category
+          <FormControl id="exerciseName">
+            <Select {...formik.getFieldProps("category")}>
+              {data.readAllExercises.map((exercise) => {
+                return (
+                  <option key={exercise._id} value={exercise.category}>
+                    {exercise.category}
+                  </option>
+                );
+              })}
+            </Select>
+          </FormControl> */}
 
           <ButtonGroup>
-            <Button mt={8} colorScheme="green" type="submit">
-              ✍️ Ändern
+            <Button mt={8} colorScheme="frontend" type="submit">
+              Hinzufügen 💪
             </Button>
             <Button
               mt={8}
-              colorScheme="red"
+              colorScheme="frontend"
               type="button"
-              onClick={(e) => {
-                if (confirm("Bist du dir sicher?")) {
-                  onDelete(e);
-                }
-              }}
+              variant="outline"
             >
-              🙅‍♂️ Löschen
+              Neue Übung hinzufügen ➕
             </Button>
           </ButtonGroup>
         </form>
