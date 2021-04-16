@@ -26,6 +26,7 @@ input LoginInput {
 
 type Mutation {
   createExercise(exerciseInput: ExerciseInput!): Exercise!
+  createNewExercise(newExerciseInput: NewExerciseInput!): Exercise!
   createSet(setInput: SetInput!): Set!
   createWorkout(workoutInput: WorkoutInput!): Workout!
   deleteExercise(exerciseId: ObjectId!): Boolean!
@@ -36,6 +37,12 @@ type Mutation {
   updateExercise(exerciseInput: ExerciseInput!): Exercise!
   updateSet(setInput: SetInput!): Set!
   updateWorkout(workoutInput: WorkoutInput!): Workout!
+}
+
+input NewExerciseInput {
+  _id: ObjectId
+  category: String!
+  name: String!
 }
 
 """Mongo id scalar type"""

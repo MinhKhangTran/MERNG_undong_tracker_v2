@@ -16,7 +16,7 @@ import { Exercise, ExerciseModel } from "../entity/Exercise";
 import { isAuth } from "../middleware/isAuth";
 import { ObjectIdScalar } from "../schema/object-id.scalar";
 import { MyContext } from "../types/MyContext";
-import { ExerciseInput } from "../types/ExerciseInput";
+import { ExerciseInput, NewExerciseInput } from "../types/ExerciseInput";
 import { Set, SetModel } from "../entity/Set";
 
 @Resolver(() => Exercise)
@@ -64,6 +64,18 @@ export class ExerciseResolver {
       //   athlete: ctx.res.locals.userId,
       set: [],
       workout,
+    } as Exercise);
+    await exercise.save();
+    return exercise;
+  }
+  //MKT create an exercise
+  @Mutation(() => Exercise)
+  @UseMiddleware(isAuth)
+  async createNewExercise(
+    @Arg("newExerciseInput") newExerciseInput: NewExerciseInput
+  ): Promise<Exercise> {
+    const exercise = new ExerciseModel({
+      ...newExerciseInput,
     } as Exercise);
     await exercise.save();
     return exercise;

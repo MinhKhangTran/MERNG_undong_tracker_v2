@@ -40,7 +40,7 @@ const AddExercise = ({ id }) => {
         },
         refetchQueries: [{ query: READ_WORKOUT_QUERY }],
       });
-      router.push("/dashboard");
+      router.back();
     },
   });
 
@@ -105,14 +105,16 @@ const AddExercise = ({ id }) => {
             <Button mt={8} colorScheme="frontend" type="submit">
               Hinzufügen 💪
             </Button>
-            <Button
-              mt={8}
-              colorScheme="frontend"
-              type="button"
-              variant="outline"
-            >
-              Neue Übung hinzufügen ➕
-            </Button>
+            <Link href="/editExercise">
+              <Button
+                mt={8}
+                colorScheme="frontend"
+                type="button"
+                variant="outline"
+              >
+                Neue Übung hinzufügen ➕
+              </Button>
+            </Link>
           </ButtonGroup>
         </form>
       </Box>

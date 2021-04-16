@@ -28,28 +28,31 @@ import * as Yup from "yup";
 import gql from "graphql-tag";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Exercise, Workout } from "lib/graphql/createExercise.graphql";
+import {
+  Exercise,
+  useCreateExerciseMutation,
+  Workout,
+} from "lib/graphql/createExercise.graphql";
 import { useEffect, useRef, useState } from "react";
 import { useCreateSetMutation } from "lib/graphql/createSet.graphql";
 import { READ_WORKOUT_QUERY } from "../../components/TableModal";
+import { useCreateNewExerciseMutation } from "lib/graphql/createNewExercise.graphql";
 
-import { firstLetterCapital } from "lib/helpers";
-import { useReadExerciseByIdQuery } from "lib/graphql/readExerciseById.graphql";
-import { useUpdateExerciseMutation } from "lib/graphql/updateExercise.graphql";
-import { useDeleteExerciseMutation } from "lib/graphql/deleteExercise.graphql";
-import { useReadAllExercisesQuery } from "lib/graphql/readAllExercises.graphql";
+export const READ_ALL_EXERCISES_QUERY = gql`
+  query ReadAllExercises {
+    readAllExercises {
+      name
+      _id
+      category
+    }
+  }
+`;
 
-const EditExercise = ({ id }) => {
-  const { data, loading, error } = useReadExerciseByIdQuery({
-    variables: { id },
-  });
-  const { data: AllExercises } = useReadAllExercisesQuery();
-  //update
-  const [updateExerciseMutation] = useUpdateExerciseMutation();
-  //delete
-  const [deleteExerciseMutation] = useDeleteExerciseMutation();
+const EditExercise = () => {
+  const [createNewExerciseMutation] = useCreateNewExerciseMutation();
+
   //other stuffs
-  const [formData, setFormData] = useState({ name: "", category: "" });
+
   const router = useRouter();
   const categoryArray = [
     "Brust",
@@ -60,8 +63,7 @@ const EditExercise = ({ id }) => {
     "Schulter",
   ];
   const formik = useFormik({
-    enableReinitialize: true,
-    initialValues: formData,
+    initialValues: { name: "", category: "Brust" },
     validationSchema: Yup.object({
       name: Yup.string().required("Ein Name ist nötig!"),
       category: Yup.string()
@@ -73,56 +75,19 @@ const EditExercise = ({ id }) => {
           "Arme",
           "Schulter",
         ])
-        .required("Eine Übung ist nötig"),
+        .required("Eine Kategorie ist nötig"),
     }),
     onSubmit: (daten, { resetForm }) => {
       // console.log(daten);
-      updateExerciseMutation({
-        variables: {
-          id,
-          name: daten.name,
-          category: daten.category,
-        },
-        refetchQueries: [{ query: READ_WORKOUT_QUERY }],
+      createNewExerciseMutation({
+        variables: { category: daten.category, name: daten.name },
+        refetchQueries: [{ query: READ_ALL_EXERCISES_QUERY }],
       });
-      router.push("/dashboard");
+
+      router.back();
       resetForm();
     },
   });
-
-  useEffect(() => {
-    if (data) {
-      setFormData({
-        name: firstLetterCapital(data.readExercise.name),
-        category: data.readExercise.category,
-      });
-    }
-  }, [data]);
-  const onDelete = async (e) => {
-    e.preventDefault();
-    try {
-      const { data } = await deleteExerciseMutation({
-        variables: { id },
-        refetchQueries: [{ query: READ_WORKOUT_QUERY }],
-      });
-      if (data.deleteExercise) {
-        router.push("/dashboard");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  //   useEffect(() => {
-  //     if (!user) {
-  //       router.push("/");
-  //     }
-  //   }, [user]);
-  if (loading)
-    return (
-      <Box mt={8}>
-        <Spinner />
-      </Box>
-    );
 
   return (
     <Box mt={8}>
@@ -132,7 +97,7 @@ const EditExercise = ({ id }) => {
 
       <Box mt={8}>
         <Heading>
-          <Text>Übung ändern/löschen</Text>
+          <Text>Neue Übung hinzufügen</Text>
         </Heading>
         <form onSubmit={formik.handleSubmit}>
           {/* name */}
@@ -175,23 +140,9 @@ const EditExercise = ({ id }) => {
             <FormErrorMessage>{formik.errors.category}</FormErrorMessage>
           </FormControl>
 
-          <ButtonGroup>
-            <Button mt={8} colorScheme="green" type="submit">
-              ✍️ Ändern
-            </Button>
-            <Button
-              mt={8}
-              colorScheme="red"
-              type="button"
-              onClick={(e) => {
-                if (confirm("Bist du dir sicher?")) {
-                  onDelete(e);
-                }
-              }}
-            >
-              🙅‍♂️ Löschen
-            </Button>
-          </ButtonGroup>
+          <Button mt={8} colorScheme="green" type="submit">
+            Hinzufügen
+          </Button>
         </form>
       </Box>
     </Box>
@@ -199,7 +150,3 @@ const EditExercise = ({ id }) => {
 };
 
 export default EditExercise;
-
-EditExercise.getInitialProps = ({ query: { id } }) => {
-  return { id };
-};

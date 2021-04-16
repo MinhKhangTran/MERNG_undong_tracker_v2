@@ -5,7 +5,7 @@ const Logo = () => {
   const bgColor = useColorModeValue("black", "white");
   const textColor = useColorModeValue("frontend.800", "frontend.200");
   return (
-    <Link href="/">
+    <Link href="/dashboard">
       <Box cursor="pointer">
         <svg
           width="80"

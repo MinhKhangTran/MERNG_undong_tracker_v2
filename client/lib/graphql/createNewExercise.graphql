@@ -1,0 +1,7 @@
+mutation CreateNewExercise($name: String!, $category: String!) {
+  createNewExercise(newExerciseInput: { name: $name, category: $category }) {
+    _id
+    name
+    category
+  }
+}
