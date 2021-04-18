@@ -33,9 +33,14 @@ export default function IndexPage() {
         fehlt aber noch einiges. Ich habe viele Ideen von meinem Meister E.K.
         bekommen, aber ich konnte nicht alles umsetzen (Dein Timer kommt noch
         😬). Ich denke es ist aber deutlich umfangreicher als die erste Version.
-        Das Projekt wird derzeit nur von mir gewartet, also wird es erst eine
-        Weile dauern, bis ich neue Features eingefügt habe. Ich bin leider noch
-        sehr langsam 🙏
+        Noch einige Hinweise:
+        <br />
+        Für dieses Projekt habe ich eine kostenlose Datenbank benutzt. Zudem hat
+        diese App noch keine Domain. D.h. im Klartext diese App ist sehr
+        langsam. Wenn die App ausgereift ist, werde ich diese Performance Issues
+        beseitigen 🤓. Das Projekt wird derzeit nur von mir gewartet, also wird
+        es erst eine Weile dauern, bis ich neue Features eingefügt habe. Ich bin
+        leider noch sehr langsam. Gib mir etwas Zeit 🙏.
       </Text>
       <Heading as="h2" size="lg" mt={4}>
         Ideen für die Zukunft
