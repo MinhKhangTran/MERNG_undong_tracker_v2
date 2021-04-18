@@ -1,0 +1,27 @@
+{
+  "name": "undong-v2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "build": "yarn workspace @undong-v2/client run build",
+    "start": "yarn workspace @undong-v2/server run start",
+    "dev": "yarn workspace @undong-v2/server run dev"
+  },
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MinhKhangTran/MERNG_undong_tracker_v2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MinhKhangTran/MERNG_undong_tracker_v2/issues"
+  },
+  "homepage": "https://github.com/MinhKhangTran/MERNG_undong_tracker_v2#readme"
+}

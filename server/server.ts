@@ -11,9 +11,13 @@ import { connectDB } from "./config/db";
 //schema
 import createSchema from "./schema";
 
+//next deploy
+import nextApp from "@undong-v2/client";
+
 const PORT = process.env.PORT || 5000;
 
 connectDB();
+const handle = nextApp.getRequestHandler();
 //create Server
 async function createServer() {
   try {
@@ -23,7 +27,7 @@ async function createServer() {
     //using middleware (Cors, Json)
     const corsOptions = {
       credentials: true,
-      origin: "http://localhost:3000",
+      // origin: "http://localhost:3000",
     };
     app.use(cors(corsOptions));
     app.use(express.json());
@@ -44,6 +48,10 @@ async function createServer() {
     });
 
     apolloServer.applyMiddleware({ app, cors: corsOptions });
+
+    // create next app request handler
+    await nextApp.prepare();
+    app.get("*", (req, res) => handle(req, res));
 
     //listen
     app.listen(PORT, () => {

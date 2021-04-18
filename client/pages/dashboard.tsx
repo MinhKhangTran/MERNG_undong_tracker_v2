@@ -35,7 +35,6 @@ import { useReadWorkoutsQuery } from "../lib/graphql/readWorkouts.graphql";
 import TableModal, { READ_WORKOUT_QUERY } from "components/TableModal";
 import AddSetModal from "components/AddSetModal";
 import AddWorkout from "../components/AddWorkout";
-import WorkoutModal from "components/WorkoutModal";
 import { GrAdd } from "react-icons/gr";
 // import { VscGear } from "react-icons/vsc";
 import { FaCalendarAlt, FaTrash } from "react-icons/fa";
