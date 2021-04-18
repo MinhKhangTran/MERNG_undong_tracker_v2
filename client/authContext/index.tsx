@@ -2,7 +2,7 @@
 import { useGetLoggedUserQuery } from "lib/graphql/getLoggedUser.graphql";
 import { useLoginMutation } from "lib/graphql/login.graphql";
 import { useRegisterMutation } from "lib/graphql/register.graphql";
-import { useContext, createContext } from "react";
+import { useContext, createContext, useState } from "react";
 import { useApolloClient } from "@apollo/client";
 import { useRouter } from "next/router";
 
@@ -27,11 +27,15 @@ interface IContextProps {
     password: string
   ) => Promise<void>;
   logout: () => void;
+  //datum
+  datum: Date;
+  handleDateChange: (date: Date) => void;
 }
 
 const AuthContext = createContext<Partial<IContextProps>>({});
 
 export const AuthProvider = ({ children }) => {
+  const [datum, setDatum] = useState(new Date());
   const router = useRouter();
   const client = useApolloClient();
   //Query: user from apollo => get logged in user
@@ -94,6 +98,8 @@ export const AuthProvider = ({ children }) => {
       router.push("/");
     });
   };
+
+  const handleDateChange = (date) => setDatum(date);
   return (
     <AuthContext.Provider
       value={{
@@ -105,6 +111,8 @@ export const AuthProvider = ({ children }) => {
         loginError,
         registerLoading,
         registerError,
+        datum,
+        handleDateChange,
       }}
     >
       {children}

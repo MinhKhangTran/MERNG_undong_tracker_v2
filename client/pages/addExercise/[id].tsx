@@ -47,6 +47,17 @@ const AddExercise = ({ id }) => {
   const selectedExercise = data?.readAllExercises?.find(
     (exercise) => exercise.name === formik.values.exerciseName
   );
+
+  //Get unique exercises; nach name
+  const allExistingExercises = data?.readAllExercises.map(
+    (exercise) => exercise.name
+  );
+  // console.log(allExistingExercises);
+  const allUniqueExercises = [
+    // @ts-expect-error
+    ...new Set(allExistingExercises?.map((exercise) => exercise)),
+  ];
+  // console.log(allUniqueExercises);
   if (loading)
     return (
       <Box>
@@ -77,10 +88,10 @@ const AddExercise = ({ id }) => {
               placeholder="Wähle eine Übung aus"
               {...formik.getFieldProps("exerciseName")}
             >
-              {data.readAllExercises.map((exercise) => {
+              {allUniqueExercises.map((exercise) => {
                 return (
-                  <option key={exercise._id} value={exercise.name}>
-                    {firstLetterCapital(exercise.name)} - {exercise.category}
+                  <option key={exercise._id} value={exercise}>
+                    {firstLetterCapital(exercise)}
                   </option>
                 );
               })}

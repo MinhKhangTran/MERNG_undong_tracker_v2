@@ -44,18 +44,21 @@ import { useDeleteExerciseMutation } from "../lib/graphql/deleteExercise.graphql
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import de from "date-fns/locale/de";
+import { useAuth } from "authContext";
 
 registerLocale("de", de);
 
 const DashboardPage = () => {
+  //context
+  const { datum, handleDateChange } = useAuth();
   const { onOpen } = useDisclosure();
   const { data, loading, error } = useReadWorkoutsQuery();
-  const [datum, setDatum] = useState(new Date());
+  // const [datum, setDatum] = useState(new Date());
   const [toggle, setToggle] = useState({ title: "", open: false });
   const [addWorkout, setAddWorkout] = useState(false);
   const [deleteExerciseMutation] = useDeleteExerciseMutation();
 
-  const handleDateChange = (date) => setDatum(date);
+  // const handleDateChange = (date) => setDatum(date);
   // console.log(data);
   // console.log(
   //   data.readWorkouts.some((workout) => {
@@ -118,6 +121,7 @@ const DashboardPage = () => {
             name="datum"
             closeOnScroll={true}
             locale="de"
+            withPortal
             //@ts-expect-error
             customInput={<DateButton />}
           ></DatePicker>
