@@ -11,7 +11,7 @@ import {
 } from "type-graphql";
 //Models
 import { Exercise, ExerciseModel } from "../entity/Exercise";
-import { Set, SetModel } from "../entity/Set";
+import { Rpe, Set, SetModel } from "../entity/Set";
 import { isAuth } from "../middleware/isAuth";
 import { ObjectIdScalar } from "../schema/object-id.scalar";
 import { MyContext } from "../types/MyContext";
@@ -89,12 +89,35 @@ export class SetResolver {
     await set.remove();
     return true;
   }
+  //MKT create RPE
+  @Mutation(() => Set)
+  @UseMiddleware(isAuth)
+  async createRpe(@Arg("setInput") setInput: SetInput): Promise<Set> {
+    const set = await SetModel.findById(setInput._id);
+    if (!set) throw new Error("Dieser Satz gibt es nicht!");
+    const updateSet = await SetModel.findOneAndUpdate(
+      { _id: setInput._id },
+      {
+        $set: {
+          rpe: {
+            //@ts-expect-error
+            text: setInput.text,
+          },
+        },
+      },
+      { new: true, runValidators: true }
+    );
+    //! Could be null therefore we need to tell typescript that
+    if (!updateSet) throw new Error("Fehler beim Änder");
+    return updateSet;
+  }
 
   //MKT create Reference to exercise
   @FieldResolver()
   async exercise(@Root() set: Set): Promise<Exercise | null> {
     return await ExerciseModel.findById(set.exercise);
   }
+
   //   //MKT ref to user
   //   @FieldResolver()
   //   async athlete(@Root() exercise: Exercise): Promise<User | null> {

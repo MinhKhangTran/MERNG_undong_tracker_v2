@@ -5,6 +5,17 @@ import { ObjectId } from "mongodb";
 import { Exercise } from "./Exercise";
 import { Ref } from "../types/Ref";
 
+//Rpe as subdocument
+@ObjectType({ description: "RPE" })
+export class Rpe {
+  @Field()
+  readonly _id: ObjectId;
+
+  @Field()
+  @Property()
+  text: string;
+}
+
 @ObjectType({ description: "Set" })
 export class Set {
   @Field()
@@ -22,6 +33,11 @@ export class Set {
   @Field(() => Exercise)
   @Property({ required: false, ref: "Exercise" })
   exercise: Ref<Exercise>;
+
+  //Subdocument to rpe
+  @Field(() => Rpe, { nullable: true })
+  @Property()
+  rpe?: Rpe;
 }
 
 export const SetModel = getModelForClass(Set, {

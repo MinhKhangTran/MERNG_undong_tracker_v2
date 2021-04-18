@@ -1,0 +1,11 @@
+mutation CreateRPE($id: ObjectId!, $text: String!) {
+  createRpe(setInput: { _id: $id, text: $text }) {
+    _id
+    wdh
+    gewicht
+    rpe {
+      _id
+      text
+    }
+  }
+}

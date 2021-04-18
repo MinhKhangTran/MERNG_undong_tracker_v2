@@ -29,6 +29,7 @@ input LoginInput {
 type Mutation {
   createExercise(exerciseInput: ExerciseInput!): Exercise!
   createNewExercise(newExerciseInput: NewExerciseInput!): Exercise!
+  createRpe(setInput: SetInput!): Set!
   createSet(setInput: SetInput!): Set!
   createWorkout(workoutInput: WorkoutInput!): Workout!
   deleteExercise(exerciseId: ObjectId!): Boolean!
@@ -71,20 +72,30 @@ input RegisterInput {
 }
 
 """
+RPE
+"""
+type Rpe {
+  _id: ObjectId!
+  text: String!
+}
+
+"""
 Set
 """
 type Set {
   _id: ObjectId!
   exercise: Exercise!
   gewicht: Float!
+  rpe: Rpe
   wdh: Float!
 }
 
 input SetInput {
   _id: ObjectId
   exercise: ObjectId
-  gewicht: Float!
-  wdh: Float!
+  gewicht: Float
+  text: String
+  wdh: Float
 }
 
 """

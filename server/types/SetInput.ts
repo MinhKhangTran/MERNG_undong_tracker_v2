@@ -12,8 +12,10 @@ export class SetInput implements Partial<Set> {
   //   @Field({ nullable: true })
   //   athlete: ObjectId;
 
-  @Field()
-  wdh: number;
-  @Field()
-  gewicht: number;
+  @Field({ nullable: true })
+  wdh?: number;
+  @Field({ nullable: true })
+  gewicht?: number;
+  @Field({ nullable: true })
+  text?: string;
 }
