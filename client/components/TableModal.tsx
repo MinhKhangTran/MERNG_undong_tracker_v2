@@ -13,11 +13,13 @@ import {
   ModalOverlay,
   Td,
   Text,
+  Textarea,
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
 import gql from "graphql-tag";
 import { Exercise, Set } from "lib/graphql/createExercise.graphql";
+import { useCreateRpeMutation } from "lib/graphql/createRPE.graphql";
 import { useDeleteSetMutation } from "lib/graphql/deleteSet.graphql";
 import { useUpdateSetMutation } from "lib/graphql/updateSet.graphql";
 import { useEffect, useState } from "react";
@@ -61,15 +63,21 @@ const TableModal = ({
     gewicht: set.gewicht,
     wdh: set.wdh,
   });
+  const [notiz, setNotiz] = useState("");
   const [closeModal, setCloseModal] = useState(false);
   //destruct mutation
   const [updateSetMutation] = useUpdateSetMutation();
   const [deleteSetMutation] = useDeleteSetMutation();
+  const [createRpeMutation] = useCreateRpeMutation();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const { data } = await updateSetMutation({
         variables: { id: set._id, gewicht: setData.gewicht, wdh: setData.wdh },
+        refetchQueries: [{ query: READ_WORKOUT_QUERY }],
+      });
+      await useCreateRpeMutation({
+        variables: { id: set._id, text: notiz },
         refetchQueries: [{ query: READ_WORKOUT_QUERY }],
       });
       //   console.log(data);
@@ -107,7 +115,7 @@ const TableModal = ({
     >
       <Td>{set.gewicht}</Td>
       <Td>{set.wdh}</Td>
-      <Td></Td>
+      <Td>{notiz}</Td>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
@@ -168,7 +176,15 @@ const TableModal = ({
                 </Button>
               </HStack>
             </Flex>
-            <Box>NOTIZ FÜR RPE UND TIMER</Box>
+            <Box mt={6}>
+              <Textarea
+                placeholder="Deine Notizen"
+                value={notiz}
+                onChange={(e) => {
+                  setNotiz(e.target.value);
+                }}
+              ></Textarea>
+            </Box>
           </ModalBody>
 
           <ModalFooter mt={8}>

@@ -129,7 +129,7 @@ const AddSetModal = ({
                   />
                   <FormErrorMessage>{formik.errors.wdh}</FormErrorMessage>
                 </FormControl>
-                <Box>NOTIZ FÜR RPE UND TIMER</Box>
+
                 <Button
                   mt={8}
                   type="submit"

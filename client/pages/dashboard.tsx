@@ -37,7 +37,7 @@ import AddSetModal from "components/AddSetModal";
 import AddWorkout from "../components/AddWorkout";
 import WorkoutModal from "components/WorkoutModal";
 import { GrAdd } from "react-icons/gr";
-import { VscGear } from "react-icons/vsc";
+// import { VscGear } from "react-icons/vsc";
 import { FaCalendarAlt, FaTrash } from "react-icons/fa";
 import { useDeleteExerciseMutation } from "../lib/graphql/deleteExercise.graphql";
 
@@ -98,12 +98,12 @@ const DashboardPage = () => {
       </Box>
     );
   return (
-    <Box>
+    <Box mt={8}>
       <Flex justify="center">
         <Heading>{datum.toLocaleDateString("de-DE", options)}</Heading>
       </Flex>
 
-      <Flex mt={8} align="center" justify="center">
+      <Flex mt={4} align="center" justify="center">
         <Button
           mr={4}
           onClick={() => {
