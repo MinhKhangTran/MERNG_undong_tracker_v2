@@ -11,7 +11,7 @@ import { connectDB } from "./config/db";
 //schema
 import createSchema from "./schema";
 
-//next deploy
+//next settings for deploy
 import nextApp from "@undong-v2/client";
 
 const PORT = process.env.PORT || 5000;
